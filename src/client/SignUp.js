@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Formik,useFormik} from 'formik';
+import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,6 +14,7 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { json } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -31,7 +32,7 @@ function Copyright(props) {
 const restaurantTheme = createTheme({
   palette: {
     primary: {
-      main: '#8BC34A', 
+      main: '#8BC34A',
     },
   },
 });
@@ -39,28 +40,40 @@ const restaurantTheme = createTheme({
 export default function SignUp() {
   const formik = useFormik({
     initialValues: {
-      firstName : '',
-      lastName : '',
+      first: '',
+      last: '',
       email: '',
       password: '',
       confirmPassword: '',
-      subscribe : false,
+      subscribe: false,
     },
-    validationSchema: Yup.object ({
-      firstName: Yup.string().required('First Name is required'),
-      lastName: Yup.string().required('Last Name is required '),
+    validationSchema: Yup.object({
+      first: Yup.string().required('First Name is required'),
+      last: Yup.string().required('Last Name is required '),
       email: Yup.string().email('Invalid email address').required('Email is required'),
-      password:Yup.string().required('Password is required').min(8,'Password must have 8 characters'),
-      confirmPassword:Yup.string().oneOf([Yup.ref('password'),null],'Password must match').required('Confirm Password is required'),
+      password: Yup.string().required('Password is required').min(8, 'Password must have 8 characters'),
+      confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match').required('Confirm Password is required'),
     }),
-    
-    onSubmit:values => {
-  console.log(values);
-    },
 
-    
+    onSubmit: async (values,{resetForm}) => {
+      try {
+        let result = await fetch("http://localhost:8000/api/SignUp", {
+          method: 'POST',
+          body: JSON.stringify(formik.values),
+          headers: {
+            "Content-Type": 'application/json',
+            "Accept": 'application/json',
+          }
+        });
+
+        result = await result.json(); 
+        console.log(result);
+        resetForm();
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
   });
-  
 
   return (
     <ThemeProvider theme={restaurantTheme}>
@@ -84,28 +97,28 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  name="firstName"
+                  name="first"
                   required
                   fullWidth
-                  id="firstName"
+                  id="first"
                   label="First Name"
                   autoComplete="given-name"
-                  value = {formik.values.firstName}
-                  onChange = {formik.handleChange}
-                  error = {formik.touched.firstName && Boolean(formik.errors.firstName)}
+                  value={formik.values.first}
+                  onChange={formik.handleChange}
+                  error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                   helperText={formik.touched.firstName && formik.errors.firstName}
-                  
+
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="last"
                   label="Last Name"
-                  name="lastName"
+                  name="last"
                   autoComplete="family-name"
-                  value = {formik.values.lastName}
+                  value={formik.values.last}
                   onChange={formik.handleChange}
                   error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                   helperText={formik.touched.lastName && formik.errors.lastName}
@@ -119,9 +132,9 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  value = {formik.values.email}
-                  onChange = {formik.handleChange}
-                  error = {formik.touched.email && Boolean(formik.errors.email)}
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
@@ -134,14 +147,14 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  value = {formik.values.password}
-                  onChange = {formik.handleChange}
-                  error = {formik.touched.password && Boolean(formik.errors.password)}
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
                   helperText={formik.touched.password && formik.errors.password}
                 />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
                   required
                   fullWidth
                   name="confirmPassword"
@@ -149,13 +162,13 @@ export default function SignUp() {
                   type="password"
                   id="confirmPassword"
                   autoComplete="same-password"
-                  value = {formik.values.confirmPassword}
-                  onChange = {formik.handleChange}
-                  error = {formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange}
+                  error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
                   helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                  />
-                </Grid>
-              
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox checked={formik.values.subscribe} onChange={formik.handleChange} name="subscribe" color="primary" />}
