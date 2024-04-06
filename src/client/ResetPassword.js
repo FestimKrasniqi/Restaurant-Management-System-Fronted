@@ -19,7 +19,8 @@ function ResetPassword() {
 initialValues : {
  
     password : '',
-    confirm_password : ''
+    confirm_password : '',
+    email: ''
 
 },
 
@@ -27,14 +28,31 @@ validationSchema:Yup.object ({
 
     password:Yup.string().required("Password is required").min(8),
     confirm_password: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match').required('Confirm Password is required'),
+    email : Yup.string().required("Email is requried").email("Invalid email address")
 }),
 
-onSubmit: values => {
-    console.log(values)
-  },
+onSubmit: async(values,{resetForm}) => {
+  try{
+   let result = await fetch("http://localhost:8000/api/Reset-Password",{
+     method:'POST',
+     body:JSON.stringify(formik.values),
+     headers:{
+       "Content-type" : 'application/json',
+       "Accept" : 'application/json',
+     }
+   });
+   result = await result.json()
+   console.log(result)
+   resetForm()
+ }
+ catch (error) {
+     console.error('Error:', error);
+   }
+ 
+ }
+});
 
-
-  });
+  
   
 
   return (
@@ -58,6 +76,26 @@ onSubmit: values => {
               Reset Password
             </Typography>
             <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
+              
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                type="email"
+                value = {formik.values.email}
+                onChange = {formik.handleChange}
+                error = {formik.touched.email && Boolean(formik.errors.email)}
+                helperText = {formik.touched.email && formik.errors.email}
+              />
+             
+              
+              
+              
               <TextField
                 margin="normal"
                 required
@@ -67,6 +105,7 @@ onSubmit: values => {
                 name="password"
                 autoComplete="password"
                 autoFocus
+                type="password"
                 value = {formik.values.password}
                 onChange = {formik.handleChange}
                 error = {formik.touched.password && Boolean(formik.errors.password)}
@@ -81,6 +120,7 @@ onSubmit: values => {
               name="confirm_password"
               autoComplete="password"
               autoFocus
+              type="password"
               value = {formik.values.confirm_password}
               onChange = {formik.handleChange}
               error = {formik.touched.confirm_password && Boolean(formik.errors.confirm_password)}
