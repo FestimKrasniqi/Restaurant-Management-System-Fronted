@@ -55,8 +55,8 @@ export default function SignUp() {
       subscribe: false,
     },
     validationSchema: Yup.object({
-      first: Yup.string().required('First Name is required'),
-      last: Yup.string().required('Last Name is required '),
+      first: Yup.string().required('First Name is required').max(255),
+      last: Yup.string().required('Last Name is required ').max(255),
       email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string().required('Password is required').min(8, 'Password must have 8 characters'),
       confirm_password: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match').required('Confirm Password is required'),
@@ -129,8 +129,8 @@ export default function SignUp() {
                   autoComplete="given-name"
                   value={formik.values.first}
                   onChange={formik.handleChange}
-                  error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                  helperText={formik.touched.firstName && formik.errors.firstName}
+                  error={formik.touched.first && Boolean(formik.errors.first)}
+                  helperText={formik.touched.first && formik.errors.first}
 
                 />
               </Grid>
@@ -144,8 +144,8 @@ export default function SignUp() {
                   autoComplete="family-name"
                   value={formik.values.last}
                   onChange={formik.handleChange}
-                  error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                  helperText={formik.touched.lastName && formik.errors.lastName}
+                  error={formik.touched.last && Boolean(formik.errors.last)}
+                  helperText={formik.touched.last && formik.errors.last}
                 />
               </Grid>
               <Grid item xs={12}>
