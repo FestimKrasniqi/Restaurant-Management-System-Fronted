@@ -1,8 +1,10 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
+import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
+import { Formik, useFormik } from 'formik';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -21,10 +23,19 @@ const restaurantTheme = createTheme({
   });
 
 export default function ForgotPassword() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
+
+  const formik = useFormik({
+      initialValues: {
+        email: '',
+      },
+      validationSchema: Yup.object({
+        email: Yup.string().email('Invalid email address').required('Email is required'),
+      }),
+      onSubmit: values => {
+        console.log(values)
+      },
     
-  };
+     });
 
   return (
     <ThemeProvider theme={restaurantTheme}>
@@ -60,16 +71,19 @@ export default function ForgotPassword() {
             <Typography component="h1" variant="h5">
               Forgot Password
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
-                required
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
                 autoFocus
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
               <Button
                 type="submit"
