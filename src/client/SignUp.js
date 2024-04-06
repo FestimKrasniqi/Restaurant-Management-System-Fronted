@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Formik, useFormik } from 'formik';
+import {useState} from 'react';
 import * as Yup from 'yup';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -15,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { json } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
 
 function Copyright(props) {
   return (
@@ -38,13 +40,18 @@ const restaurantTheme = createTheme({
 });
 
 export default function SignUp() {
+ 
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
+
   const formik = useFormik({
     initialValues: {
       first: '',
       last: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      confirm_password: '',
       subscribe: false,
     },
     validationSchema: Yup.object({
@@ -52,7 +59,7 @@ export default function SignUp() {
       last: Yup.string().required('Last Name is required '),
       email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string().required('Password is required').min(8, 'Password must have 8 characters'),
-      confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match').required('Confirm Password is required'),
+      confirm_password: Yup.string().oneOf([Yup.ref('password'), null], 'Password must match').required('Confirm Password is required'),
     }),
 
     onSubmit: async (values,{resetForm}) => {
@@ -69,8 +76,18 @@ export default function SignUp() {
         result = await result.json(); 
         console.log(result);
         resetForm();
+
+        if(result.status) {
+          setShowAlert(true);
+          setAlertMessage("User registered with success");
+        } else {
+          setShowAlert(true);
+          setAlertMessage("Registration failed");
+        }
       } catch (error) {
         console.error('Error:', error);
+        setShowAlert(true);
+        setAlertMessage("An error occurred while registering in.");
       }
     }
   });
@@ -81,12 +98,19 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            my: 8,
+            mx: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
+           {showAlert && (
+              <Box mb={2}>
+                <Alert severity={alertMessage.includes("failed") ? "error" : "success"} onClose={() => setShowAlert(false)}></Alert>
+                {alertMessage}
+              </Box>
+            )}
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <RestaurantIcon />
           </Avatar>
@@ -157,15 +181,15 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="confirmPassword"
+                  name="confirm_password"
                   label="confirm-password"
                   type="password"
-                  id="confirmPassword"
+                  id="confirm_password"
                   autoComplete="same-password"
-                  value={formik.values.confirmPassword}
+                  value={formik.values.confirm_password}
                   onChange={formik.handleChange}
-                  error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                  helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                  error={formik.touched.confirm_password && Boolean(formik.errors.confirm_password)}
+                  helperText={formik.touched.confirm_password && formik.errors.confirm_password}
                 />
               </Grid>
 
