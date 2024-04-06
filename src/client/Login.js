@@ -1,5 +1,8 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
+import { Formik, useFormik } from 'formik';
+import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -12,16 +15,59 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 
 function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
+
+
+ const formik = useFormik({
+  initialValues : {
+  email : '',
+  password : '',
+  subscribe : false
+
+  },
+ validationSchema: Yup.object ({
+  email:Yup.string().required("Email is requried"),
+  password:Yup.string().required("Password is required")
+ }),
+ onSubmit: async (values,{resetForm}) => {
+  try {
+    let result = await fetch("http://localhost:8000/api/Login", {
+      method: 'POST',
+      body: JSON.stringify(formik.values),
+      headers: {
+        "Content-Type": 'application/json',
+        "Accept": 'application/json',
+      }
     });
-  };
+
+
+    if(result.ok) {
+    result = await result.json(); 
+    localStorage.setItem('token',result.token)
+    console.log(result);
+    resetForm();
+    } else {
+     console.log("Login failed",values.statusText)
+     setShowAlert(true);
+     setAlertMessage("Login failed. Please check your credentials.");
+     }
+  } catch (error) {
+    console.error('Error:', error);
+    setShowAlert(true);
+    setAlertMessage("An error occurred while logging in.");
+  }
+}
+});
+
+
+  
 
   return (
     <ThemeProvider theme={createTheme()}>
@@ -51,13 +97,18 @@ function Login() {
               alignItems: 'center',
             }}
           >
+          {showAlert && (
+              <Box mb={2}>
+                <Alert severity="error" onClose={() => setShowAlert(false)}>{alertMessage}</Alert>
+              </Box>
+            )}
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Restaurant Login
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -67,6 +118,10 @@ function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                value = {formik.values.email}
+                onChange={formik.handleChange}
+                error = {formik.touched.email && Boolean(formik.errors.email)}
+                helperText = {formik.touched.email && formik.errors.email}
                 
               />
               <TextField
@@ -78,10 +133,13 @@ function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                
-              />
+                value = {formik.values.password}
+                onChange = {formik.handleChange}
+                error = {formik.touched.password && Boolean(formik.errors.password)}
+                helperText = {formik.touched.password && formik.errors.password}
+                />
               <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
+                control={<Checkbox name="subscribe" onChange={formik.handleChange} checked = {formik.values.subscribe} color="primary" />}
                 label="Remember me"
               />
               <Button
