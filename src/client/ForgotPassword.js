@@ -31,10 +31,25 @@ export default function ForgotPassword() {
       validationSchema: Yup.object({
         email: Yup.string().email('Invalid email address').required('Email is required'),
       }),
-      onSubmit: values => {
-        console.log(values)
-      },
-    
+      onSubmit: async(values,{resetForm}) => {
+       try{
+        let result = await fetch("http://localhost:8000/api/Forgot-Password",{
+          method:'POST',
+          body:JSON.stringify(formik.values),
+          headers:{
+            "Content-type" : 'application/json',
+            "Accept" : 'application/json',
+          }
+        });
+        result = await result.json()
+        console.log(result)
+        resetForm()
+      }
+      catch (error) {
+          console.error('Error:', error);
+        }
+      
+      }
      });
 
   return (
