@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import {formik,useFormik} from 'formik';
+import {useState} from 'react';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,8 +14,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
 
 function ResetPassword() {
+
+const[showAlert,setShowAlert] = useState(false);
+const[message,setAlertMessage] = useState("");
+
   const formik = useFormik({
 initialValues : {
  
@@ -44,6 +50,14 @@ onSubmit: async(values,{resetForm}) => {
    result = await result.json()
    console.log(result)
    resetForm()
+
+   if(result.status) {
+    setShowAlert(true);
+    setAlertMessage("Password updated with success");
+   } else {
+    setShowAlert(true);
+    setAlertMessage("Error could not update");
+   }
  }
  catch (error) {
      console.error('Error:', error);
@@ -69,6 +83,12 @@ onSubmit: async(values,{resetForm}) => {
               alignItems: 'center',
             }}
           >
+          {showAlert && (
+              <Box mb={2} sx={{ textAlign: 'center' }}>
+                <Alert severity={message.includes("failed") ? "error" : "success"} onClose={() => setShowAlert(false)}></Alert>
+                {message}
+              </Box>
+            )}
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
