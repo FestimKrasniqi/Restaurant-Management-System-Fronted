@@ -1,6 +1,7 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import * as Yup from 'yup';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -14,6 +15,7 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+
 const restaurantTheme = createTheme({
     palette: {
       primary: {
@@ -23,6 +25,7 @@ const restaurantTheme = createTheme({
   });
 
 export default function ForgotPassword() {
+
 
   const formik = useFormik({
       initialValues: {
@@ -44,6 +47,8 @@ export default function ForgotPassword() {
         result = await result.json()
         console.log(result)
         resetForm()
+
+        
       }
       catch (error) {
           console.error('Error:', error);
@@ -80,6 +85,7 @@ export default function ForgotPassword() {
               alignItems: 'center',
             }}
           >
+             
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <RestaurantIcon />
             </Avatar>
