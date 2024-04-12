@@ -48,6 +48,7 @@ onSubmit: async(values,{resetForm}) => {
      }
    });
    result = await result.json()
+   localStorage.setItem('token',result.token)
    console.log(result)
    resetForm()
 
