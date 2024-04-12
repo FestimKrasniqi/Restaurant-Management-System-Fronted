@@ -45,6 +45,7 @@ export default function ForgotPassword() {
           }
         });
         result = await result.json()
+        localStorage.setItem('token',result.token)
         console.log(result)
         resetForm()
 
