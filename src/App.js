@@ -5,6 +5,7 @@ import Login from './client/Login';
 import Forgot from './client/ForgotPassword'
 import ResetPassword from './client/ResetPassword';
 import OrderForm from './client/RestaurantHomePage/Order';
+import ReservationForm from './client/RestaurantHomePage/Booking';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
           <Route path = "/Forgot" element = {<Forgot/>}/>
           <Route path = "/Reset" element = {<ResetPassword/>}/>
           <Route path = "/Order" element = {<OrderForm/>}/>
+          <Route path = "/Booking" element = {<ReservationForm/>}/>
         </Routes>
       </Router>
     );
