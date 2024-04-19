@@ -6,6 +6,7 @@ import Forgot from './client/ForgotPassword'
 import ResetPassword from './client/ResetPassword';
 import OrderForm from './client/RestaurantHomePage/Order';
 import ReservationForm from './client/RestaurantHomePage/Booking';
+import MyOrders from './client/RestaurantHomePage/MyOrder';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
           <Route path = "/Reset" element = {<ResetPassword/>}/>
           <Route path = "/Order" element = {<OrderForm/>}/>
           <Route path = "/Booking" element = {<ReservationForm/>}/>
+          <Route path = "/myorder" element = {<MyOrders/>}/>
         </Routes>
       </Router>
     );
