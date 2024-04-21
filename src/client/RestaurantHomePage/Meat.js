@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/system";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import ChickenFinger from "../chicken-fingers.jpg";
+import ChickenFinger from "../img/chicken-fingers.jpg";
 import Beef from "../img/Beef.jpeg";
 import img2 from "../img/img2.jpg";
 
