@@ -10,6 +10,7 @@ import MyOrders from './client/RestaurantHomePage/MyOrder';
 import MyReservation from './client/RestaurantHomePage/MyReservation';
 import About from './client/RestaurantHomePage/About';
 import Menu from './client/RestaurantHomePage/Menu';
+import Home from './client/RestaurantHomePage/Home';
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
           <Route path = "/myreservation" element={<MyReservation/>}/>
           <Route path = "/about" element={<About/>}/>
           <Route path = "/menu" element ={<Menu/>}/>
+          <Route path = "/home" element ={<Home/>}/>
         </Routes>
       </Router>
     );
