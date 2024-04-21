@@ -1,9 +1,9 @@
 import React from "react";
 import { styled } from "@mui/system";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import PizzaMargherita from "../img/Pizza-Margherita.jpg";
-import PizzaPeperoni from "../img/Pepperoni-Pizza.jpg";
-import NewYorkPizza from "../img/New York Pizza.jpg";
+import ChickenFinger from "../chicken-fingers.jpg";
+import Beef from "../img/Beef.jpeg";
+import img2 from "../img/img2.jpg";
 
 
 const RootContainer = styled("div")({
@@ -33,18 +33,17 @@ const StyledCardMedia = styled(CardMedia)({
   height: 140,
 });
 
-const Pizza = () => {
+const Meat = () => {
   const dishesData = [
-    {img:PizzaMargherita,title:"Pizza Margherita",price:"$2.50",rating:5.0,description:"Taste this delicious pizza"},
-    {img:PizzaPeperoni,title:"Pizza Peperoni",price:"$2.90",rating:5.3,description:"Enjoy this delicious pizza made by us"},
-    {img:NewYorkPizza,title:"New York Pizza",price:"$3.00",rating:4.8,description:"Taste this delicious new york pizza "}
-   
+    {img:ChickenFinger,title:"Chicken Finger",price:"$2.50",rating:5.0,description:"Delicious chicken with a good taste"},
+    {img:Beef,title:"Beef",price:"$5.00",rating:6.0,description:"Enjoy your meal"},
+    {img:img2,title:"File Pule",price:"$3.50",rating:6.0,description:"Delicious chicken with a good taste"}
   ];
 
   return (
     <RootContainer>
       <Typography variant="h4" align="center" gutterBottom sx={{ paddingTop: { xs: 8, lg: 16 }, paddingBottom: 10 }}>
-        Our Pizzas
+        Our Meats
       </Typography>
 
       <DishesContainer>
@@ -76,4 +75,4 @@ const Pizza = () => {
   );
 };
 
-export default Pizza;
+export default Meat;
