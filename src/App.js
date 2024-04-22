@@ -11,6 +11,8 @@ import MyReservation from './client/RestaurantHomePage/MyReservation';
 import About from './client/RestaurantHomePage/About';
 import Menu from './client/RestaurantHomePage/Menu';
 import Home from './client/RestaurantHomePage/Home';
+import OrderAdmin from './client/Admin/OrderAdmin';
+import BookingAdmin from './client/Admin/BookingAdmin';
 
 function App() {
     return (
@@ -28,6 +30,8 @@ function App() {
           <Route path = "/about" element={<About/>}/>
           <Route path = "/menu" element ={<Menu/>}/>
           <Route path = "/home" element ={<Home/>}/>
+          <Route path = "/orderadmin" element={<OrderAdmin/>}/>
+          <Route path = "/bookingadmin" element={<BookingAdmin/>}/>
         </Routes>
       </Router>
     );
