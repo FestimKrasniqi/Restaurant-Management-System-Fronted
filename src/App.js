@@ -13,6 +13,8 @@ import Menu from './client/RestaurantHomePage/Menu';
 import Home from './client/RestaurantHomePage/Home';
 import OrderAdmin from './client/Admin/OrderAdmin';
 import BookingAdmin from './client/Admin/BookingAdmin';
+import MenuAdmin from './client/Admin/MenuAdmin';
+import MenuFormAdmin from './client/Admin/MenuFormAdmin';
 
 function App() {
     return (
@@ -32,6 +34,8 @@ function App() {
           <Route path = "/home" element ={<Home/>}/>
           <Route path = "/orderadmin" element={<OrderAdmin/>}/>
           <Route path = "/bookingadmin" element={<BookingAdmin/>}/>
+          <Route path = "/menuadmin" element={<MenuAdmin/>}/>
+          <Route path = "/menuformadmin" element={<MenuFormAdmin/>}/>
         </Routes>
       </Router>
     );
