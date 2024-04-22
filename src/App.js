@@ -15,6 +15,8 @@ import OrderAdmin from './client/Admin/OrderAdmin';
 import BookingAdmin from './client/Admin/BookingAdmin';
 import MenuAdmin from './client/Admin/MenuAdmin';
 import MenuFormAdmin from './client/Admin/MenuFormAdmin';
+import StaffForm from './client/Admin/StaffFormAdmin';
+import StaffAdmin from './client/Admin/StaffAdmin';
 
 function App() {
     return (
@@ -36,6 +38,8 @@ function App() {
           <Route path = "/bookingadmin" element={<BookingAdmin/>}/>
           <Route path = "/menuadmin" element={<MenuAdmin/>}/>
           <Route path = "/menuformadmin" element={<MenuFormAdmin/>}/>
+          <Route path = "/staffformadmin" element={<StaffForm/>}/>
+          <Route path = "/staffadmin" element={<StaffAdmin/>}/>
         </Routes>
       </Router>
     );
