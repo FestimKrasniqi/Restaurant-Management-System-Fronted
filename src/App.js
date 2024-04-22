@@ -17,6 +17,8 @@ import MenuAdmin from './client/Admin/MenuAdmin';
 import MenuFormAdmin from './client/Admin/MenuFormAdmin';
 import StaffForm from './client/Admin/StaffFormAdmin';
 import StaffAdmin from './client/Admin/StaffAdmin';
+import TableAdmin from './client/Admin/TableAdmin';
+import TableForm from './client/Admin/TableFormAdmin';
 
 function App() {
     return (
@@ -40,6 +42,8 @@ function App() {
           <Route path = "/menuformadmin" element={<MenuFormAdmin/>}/>
           <Route path = "/staffformadmin" element={<StaffForm/>}/>
           <Route path = "/staffadmin" element={<StaffAdmin/>}/>
+          <Route path = "/tableadmin" element={<TableAdmin/>}/>
+          <Route path = "/tableformadmin" element={<TableForm/>}/>
         </Routes>
       </Router>
     );
