@@ -20,6 +20,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -84,14 +85,36 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
+  const navigate = useNavigate();
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   
-  const handleLogout = () => {
+  const handleLogout = async() => {
 
-    console.log('Logged out');
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch("http://localhost:8000/api/logout", {
+        method:'POST',
+        headers: {
+          'Content-type' : 'application/json',
+          'Accept': 'application/json',
+          'Authorization' : `Bearer ${token}`
+        },
+      });
+
+      if(response.ok) {
+        console.log("Logged out successfully");
+        localStorage.removeItem('token');
+        navigate('/login'); 
+      } else {
+        console.error("Failed to log out");
+      }
+    } catch(error) {
+      console.log("Error logging out",error);
+    }
   };
 
   return (

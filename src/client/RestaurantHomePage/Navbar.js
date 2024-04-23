@@ -15,14 +15,41 @@ import Divider from "@mui/material/Divider";
 import ListItemButton from "@mui/material/ListItemButton";
 import { BiRestaurant } from "react-icons/bi";
 import { BiChevronDown } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
+  const navigate = useNavigate();
 
   const [showNonMenus, setShowNonMenus] = useState(false);
 
   const toggleNonMenus = () => {
     setShowNonMenus(!showNonMenus);
+  };
+  const handleLogout = async() => {
+
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch("http://localhost:8000/api/logout", {
+        method:'POST',
+        headers: {
+          'Content-type' : 'application/json',
+          'Accept': 'application/json',
+          'Authorization' : `Bearer ${token}`
+        },
+      });
+
+      if(response.ok) {
+        console.log("Logged out successfully");
+        localStorage.removeItem('token');
+        navigate('/login'); 
+      } else {
+        console.error("Failed to log out");
+      }
+    } catch(error) {
+      console.log("Error logging out",error);
+    }
   };
 
 
@@ -183,7 +210,7 @@ const Navbar = () => {
             </ScrollLink>
 
             
-            <Button color="inherit" variant="outlined" alignItems="right">
+            <Button color="inherit" variant="outlined" alignItems="right" onClick={handleLogout}>
               Logout
             </Button>
           </Box>

@@ -9,9 +9,18 @@ const [users,setUsers] = useState([]);
 useEffect(()=>{
 const fetchuser =  async () => {
     try {
-        const response = await fetch("http://localhost:8000/api/user1");
+      const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8000/api/users", {
+          method:"GET",
+          headers: {
+            'Content-type' : 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : `Bearer ${token}`
+
+          }
+        });
         if(!response.ok) {
-            throw new Error("Failed to fetch user");
+            console.error("Failed to fetch user");
         }
         const data = await response.json();
         setUsers(data);
@@ -38,6 +47,7 @@ return (
               <TableCell>Phone Number</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Role</TableCell>
+              <TableCell>Active</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -50,6 +60,7 @@ return (
                  <TableCell>{user.phoneNumber}</TableCell>
                  <TableCell>{user.email}</TableCell>
                  <TableCell>{user.role}</TableCell>
+                 <TableCell>{user.active ? "Active" : "InActive"}</TableCell>
                </TableRow>
             ))}
           </TableBody>
