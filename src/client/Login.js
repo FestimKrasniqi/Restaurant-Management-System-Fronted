@@ -16,13 +16,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom'; 
 
 function Login() {
 
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-
+  const navigate = useNavigate();
 
 
  const formik = useFormik({
@@ -49,9 +50,43 @@ function Login() {
 
 
     if(result.ok) {
-    result = await result.json(); 
-    localStorage.setItem('token',result.token)
-    console.log(result);
+      const { token, role } = await result.json();
+    localStorage.setItem('token',token)
+    console.log(token);
+
+    if (role === 'admin') {
+      const adminResponse = await fetch("http://localhost:8000/api/admin", {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (adminResponse.ok) {
+       
+      } else {
+        console.log("Failed to fetch admin data:", adminResponse.statusText);
+      }
+
+      navigate('/dashboard'); 
+    } else {
+      const userResponse = await fetch("http://localhost:8000/api/user1", {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (userResponse.ok) {
+       
+      } else {
+        console.log("Failed to fetch user data:", userResponse.statusText);
+      }
+
+      navigate('/home'); 
+    }
+
+
     resetForm();
     } else {
      console.log("Login failed",values.statusText)
