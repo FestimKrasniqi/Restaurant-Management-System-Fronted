@@ -1,9 +1,8 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { styled } from "@mui/system";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import Tiramisu from "../img/Tiramisu.jpg";
-import Trilece from "../img/Trilece.jpg";
-import IceCream from "../img/Ice Cream.jpg"
+
+
 
 const RootContainer = styled("div")({
   minHeight: "100vh",
@@ -33,12 +32,34 @@ const StyledCardMedia = styled(CardMedia)({
 });
 
 const Dessert = () => {
-  const dishesData = [
-    { img: Tiramisu, title: "Tiramisu", price: "$2.50", rating: 4.5, description: "Delicious cake with perfect taste" },
-    { img: Trilece, title: "Trilece", price: "$1.50", rating: 5.0, description: "Tasty cake from the Balkans" },
-    {img:IceCream,title:"Ice Cream",price:"$1",rating:5.5,description:"Delicious Chocolate Ice Cream"}
-     
-  ];
+  
+  const[menus,setMenus] = useState([]);
+
+  useEffect(() => {
+    const fetchmenu = async () => {
+      try{
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8000/api/menus/Dessert", {
+          method: "GET",
+          headers: {
+            'Content-type' : 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+
+        if(!response.ok) {
+          console.log("Failed to fetch menu");
+        }
+        const data = await response.json();
+        setMenus(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchmenu();
+  },[]);
+
 
   return (
     <RootContainer>
@@ -47,25 +68,23 @@ const Dessert = () => {
       </Typography>
 
       <DishesContainer>
-        {dishesData.map((dish, index) => (
+        {menus.map((menu, index) => (
           <StyledCard key={index}>
             <StyledCardMedia
               component="img"
-              image={dish.img}
-              alt={dish.title}
+              image={"http://localhost:8000/" + menu.image_url}
+              alt={menu.name}
             />
             <CardContent>
               <Typography variant="h5" component="h2">
-                {dish.title}
+                {menu.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Price: {dish.price}
+                Price: {menu.price}€
               </Typography>
+             
               <Typography variant="body2" color="textSecondary" component="p">
-                Rating: {dish.rating}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Description: {dish.description}
+                Description: {menu.description}
               </Typography>
             </CardContent>
           </StyledCard>

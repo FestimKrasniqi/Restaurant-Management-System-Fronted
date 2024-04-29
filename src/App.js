@@ -21,6 +21,8 @@ import TableAdmin from './client/Admin/TableAdmin';
 import TableForm from './client/Admin/TableFormAdmin';
 import Dashboard from './client/Admin/Dashboard';
 import UserAdmin from './client/Admin/UserTrackAdmin';
+import EditMenuForm from './client/Admin/EditMenuForm';
+
 
 function App() {
     return (
@@ -48,6 +50,7 @@ function App() {
           <Route path = "/tableformadmin" element={<TableForm/>}/>
           <Route path = "/useradmin" element={<UserAdmin/>}/>
           <Route path = "/dashboard" element={<Dashboard/>}/>
+          <Route path =  "/editMenu/:id" element={<EditMenuForm/>}/>
         </Routes> 
       </Router>
     );
