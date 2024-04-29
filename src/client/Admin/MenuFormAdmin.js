@@ -3,43 +3,68 @@ import { useFormik } from "formik";
 import { TextField, Button, Grid } from "@mui/material";
 import * as Yup from "yup";
 
+
 const MenuFormAdmin = () => {
   const validationSchema = Yup.object().shape({
-    foodItem: Yup.string().required("Food Name is required"),
-    image: Yup.mixed().required("Image is required"),
+    name: Yup.mixed().required("Food Name is required"),
+    image_url: Yup.string().required("Image is required"),
     price: Yup.number().required("Price is required").positive("Price must be positive"),
     description: Yup.string().required("Description is required"),
-    category: Yup.string().required("Category is required"),
+    category_name: Yup.string().required("Category is required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      foodItem: "",
-      image: "",
+      name: "",
+      image_url: "",
       price: "",
       description: "",
-      category: "",
+      category_name: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-      formik.resetForm();
+    onSubmit: async (values,{resetForm}) => {
+    try{
+      const token = localStorage.getItem('token');
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('price', values.price);
+      formData.append('description', values.description);
+      formData.append('category_name', values.category_name);
+      formData.append('image_url', values.image_url);
+
+
+
+
+      let result = await fetch("http://localhost:8000/api/create-menu", {
+        method : "POST",
+        body: formData,
+        headers : {
+          'Authorization' : `Bearer ${token}`
+         }
+      });
+      result = await result.json();
+      console.log(result);
+      resetForm();
+    } catch(error) {
+      console.log("Error:", error)
+    }
+      
     },
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} autoComplete="off">
+    <form onSubmit={formik.handleSubmit} autoComplete="off" encType="multipart/form-data">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             fullWidth
             label="Food Name"
-            name="foodItem"
-            value={formik.values.foodItem}
+            name="name"
+            value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.foodItem && Boolean(formik.errors.foodItem)}
-            helperText={formik.touched.foodItem && formik.errors.foodItem}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
            
           />
         </Grid>
@@ -48,15 +73,15 @@ const MenuFormAdmin = () => {
             fullWidth
             label="Image"
             type="file"
-            name="image"
+            name="image_url"
             InputLabelProps={{ shrink: true }}
             inputProps={{ accept: 'image/*' }} 
             onChange={(event) => {
-              formik.setFieldValue("image", event.currentTarget.files[0]);
+              formik.setFieldValue("image_url", event.target.files[0]);
             }}
             onBlur={formik.handleBlur}
-            error={formik.touched.image && Boolean(formik.errors.image)}
-            helperText={formik.touched.image && formik.errors.image}
+            error={formik.touched.image_url && Boolean(formik.errors.image_url)}
+            helperText={formik.touched.image_url && formik.errors.image_url}
           />
         </Grid>
         <Grid item xs={12}>
@@ -88,12 +113,12 @@ const MenuFormAdmin = () => {
           <TextField
           fullWidth
           label="Category"
-          name="category"
-          value={formik.values.category}
+          name="category_name"
+          value={formik.values.category_name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.category && Boolean(formik.errors.category)}
-          helperText={formik.touched.category && formik.errors.category}
+          error={formik.touched.category_name && Boolean(formik.errors.category_name)}
+          helperText={formik.touched.category_name && formik.errors.category_name}
           />
         </Grid>
         <Grid container justifyContent="center">
@@ -102,7 +127,7 @@ const MenuFormAdmin = () => {
               variant="contained"
               color="secondary"
               type="submit"
-              disabled={formik.isSubmitting}
+             
             >
               Add Menu
             </Button>

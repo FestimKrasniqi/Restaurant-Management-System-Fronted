@@ -15,7 +15,6 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { json } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 
 function Copyright(props) {

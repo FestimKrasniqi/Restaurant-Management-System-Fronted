@@ -1,9 +1,8 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { styled } from "@mui/system";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import Cola from "../img/cola.jpg";
-import GoldenEagle from "../img/GoldenEagle.jpeg";
-import Macchiatto from "../img/Macchiatto.jpg";
+
+
 
 const RootContainer = styled("div")({
   minHeight: "100vh",
@@ -24,49 +23,68 @@ const DishesContainer = styled("div")({
 
 
 const StyledCard = styled(Card)({
-  maxWidth: 346,
+  maxWidth: 345,
 });
 
 
 const StyledCardMedia = styled(CardMedia)({
-  height: 320,
+  height: 270,
 });
 
-const DrinksAndCoffee = () => {
-  const dishesData = [
-    { img: Cola, title: "Coca-Cola", price: "$1", rating: 5.0, description: "The best selling soda in the world" },
-    {img:GoldenEagle,title:"Golden-Eagle",price:"$0.50",rating:5.0,description:"Energy Drink made in Kosova"},
-    {img:Macchiatto,title:"Macchiatto",price:"$1.20",rating:4.6,description:"Enjoy your Italian Coffee"}
-    
-     
-  ];
+const Dessert = () => {
+  
+  const[menus,setMenus] = useState([]);
+
+  useEffect(() => {
+    const fetchmenu = async () => {
+      try{
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8000/api/menus/Drinks&Coffee", {
+          method: "GET",
+          headers: {
+            'Content-type' : 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+
+        if(!response.ok) {
+          console.log("Failed to fetch menu");
+        }
+        const data = await response.json();
+        setMenus(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchmenu();
+  },[]);
+
 
   return (
     <RootContainer>
       <Typography variant="h4" align="center" gutterBottom sx={{ paddingTop: { xs: 8, lg: 16 }, paddingBottom: 10 }}>
-        Our Drinks&Coffee
+        Our Drinks And Coffee
       </Typography>
 
       <DishesContainer>
-        {dishesData.map((dish, index) => (
+        {menus.map((menu, index) => (
           <StyledCard key={index}>
             <StyledCardMedia
               component="img"
-              image={dish.img}
-              alt={dish.title}
+              image={"http://localhost:8000/" + menu.image_url}
+              alt={menu.name}
             />
             <CardContent>
               <Typography variant="h5" component="h2">
-                {dish.title}
+                {menu.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Price: {dish.price}
+                Price: {menu.price}€
               </Typography>
+             
               <Typography variant="body2" color="textSecondary" component="p">
-                Rating: {dish.rating}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Description: {dish.description}
+                Description: {menu.description}
               </Typography>
             </CardContent>
           </StyledCard>
@@ -76,4 +94,4 @@ const DrinksAndCoffee = () => {
   );
 };
 
-export default DrinksAndCoffee;
+export default Dessert;

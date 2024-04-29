@@ -1,9 +1,7 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { styled } from "@mui/system";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import PizzaMargherita from "../img/Pizza-Margherita.jpg";
-import PizzaPeperoni from "../img/Pepperoni-Pizza.jpg";
-import NewYorkPizza from "../img/New York Pizza.jpg";
+
 
 
 const RootContainer = styled("div")({
@@ -30,16 +28,38 @@ const StyledCard = styled(Card)({
 
 
 const StyledCardMedia = styled(CardMedia)({
-  height: 140,
+  height: 270,
 });
 
-const Pizza = () => {
-  const dishesData = [
-    {img:PizzaMargherita,title:"Pizza Margherita",price:"$2.50",rating:5.0,description:"Taste this delicious pizza"},
-    {img:PizzaPeperoni,title:"Pizza Peperoni",price:"$2.90",rating:5.3,description:"Enjoy this delicious pizza made by us"},
-    {img:NewYorkPizza,title:"New York Pizza",price:"$3.00",rating:4.8,description:"Taste this delicious new york pizza "}
-   
-  ];
+const Dessert = () => {
+  
+  const[menus,setMenus] = useState([]);
+
+  useEffect(() => {
+    const fetchmenu = async () => {
+      try{
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8000/api/menus/Pizza", {
+          method: "GET",
+          headers: {
+            'Content-type' : 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+
+        if(!response.ok) {
+          console.log("Failed to fetch menu");
+        }
+        const data = await response.json();
+        setMenus(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchmenu();
+  },[]);
+
 
   return (
     <RootContainer>
@@ -48,25 +68,23 @@ const Pizza = () => {
       </Typography>
 
       <DishesContainer>
-        {dishesData.map((dish, index) => (
+        {menus.map((menu, index) => (
           <StyledCard key={index}>
             <StyledCardMedia
               component="img"
-              image={dish.img}
-              alt={dish.title}
+              image={"http://localhost:8000/" + menu.image_url}
+              alt={menu.name}
             />
             <CardContent>
               <Typography variant="h5" component="h2">
-                {dish.title}
+                {menu.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Price: {dish.price}
+                Price: {menu.price}€
               </Typography>
+             
               <Typography variant="body2" color="textSecondary" component="p">
-                Rating: {dish.rating}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Description: {dish.description}
+                Description: {menu.description}
               </Typography>
             </CardContent>
           </StyledCard>
@@ -76,4 +94,4 @@ const Pizza = () => {
   );
 };
 
-export default Pizza;
+export default Dessert;
