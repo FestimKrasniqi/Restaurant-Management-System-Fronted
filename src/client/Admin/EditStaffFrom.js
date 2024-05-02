@@ -2,25 +2,25 @@ import { TextField, Button, Grid } from "@mui/material";
 import React,{ useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
-const EditMenuForm = () => {
+const EditStaffForm = () => {
     const { id } = useParams();
    
-    const [menuField, setMenuField] = useState({
-        name: "",
-        price: "",
-        description: "",
-        category_name: "",
-        image_url: "",
+    const [staffField, setStaffField] = useState({
+        FullName: "",
+        salary: "",
+        role: "",
+        start_time: "",
+        end_time: "",
     });
 
     useEffect(() => {
-        fetchMenu();
+        fetchStaff();
     }, [id]); 
 
-    const fetchMenu = async () => {
+    const fetchStaff = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8000/api/menu/${id}`, {
+            const response = await fetch(`http://localhost:8000/api/staff/${id}`, {
                 method: "GET",
                 headers: {
                     'Content-type': 'application/json',
@@ -29,19 +29,19 @@ const EditMenuForm = () => {
                 }
             });
             const result = await response.json(); 
-            setMenuField(result);
+            setStaffField(result);
         } catch (err) {
             console.log("Something went wrong:", err);
         }
     };
 
     const changeUserFieldHandler = (e) => {
-        setMenuField({
-            ...menuField,
+        setStaffField({
+            ...staffField,
             [e.target.name]: e.target.value,
-            category: {
-               ...menuField.category,
-               [e.target.name] : e.target.value
+            shift : {
+                ...staffField.shift,
+                [e.target.name] : e.target.value
             }
         });
        
@@ -51,14 +51,14 @@ const EditMenuForm = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            await fetch(`http://localhost:8000/api/updateMenu/${id}`, {
+            await fetch(`http://localhost:8000/api/updateStaff/${id}`, {
                 method: "PATCH",
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(menuField) 
+                body: JSON.stringify(staffField) 
             });
         } catch (err) {
             console.log("Something went wrong:", err);
@@ -73,56 +73,51 @@ const EditMenuForm = () => {
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
-                            label="Name"
-                            placeholder="Enter Your Name"
-                            name="name"
+                            label="FullName"
+                            name="FullName"
                             type="text"
-                            value={menuField.name}
+                            value={staffField.FullName}
                             onChange={changeUserFieldHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
-                            label="Price"
+                            label="Salary"
                             type="number"
-                            placeholder="Enter Price"
-                            name="price"
-                            value={menuField.price}
+                            name="salary"
+                            value={staffField.salary}
                             onChange={changeUserFieldHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
-                            label="Description"
-                            placeholder="Enter Description"
-                            name="description"
+                            label="Role"
+                            name="role"
                             type="text"
-                            value={menuField.description}
+                            value={staffField.role}
                             onChange={changeUserFieldHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
-                            label="Category"
-                            placeholder="Enter Category"
-                            name="category_name"
-                            type="text"
-                            value={menuField.category ? menuField.category.category_name : ''}
+                            label="StartTime"
+                            name="start_time"
+                            type="time"
+                            value={staffField.shift ? staffField.shift.start_time : ''}
                             onChange={changeUserFieldHandler}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
-                            type="file"
-                            label="Image"
-                            id="image_url"
-                            name="image_url"
-                            InputLabelProps={{ shrink: true }}
-                            inputProps={{ accept: 'image/*' }} 
+                            type="time"
+                            label="EndTime"
+                            id="end_time"
+                            name="end_time"
+                            value={staffField.shift ? staffField.shift.end_time : ''}
                             onChange={changeUserFieldHandler}
                         />
                     </Grid>
@@ -141,4 +136,4 @@ const EditMenuForm = () => {
     );
 };
 
-export default EditMenuForm;
+export default EditStaffForm;
