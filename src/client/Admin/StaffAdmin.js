@@ -1,10 +1,71 @@
 
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Button,Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const StaffAdmin = () => {
+
+  const[staff,setStaff] = useState([]);
+
+  useEffect(() => {
+    const fetchstaff = async () => {
+      try{
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8000/api/allStaff", {
+          method: "GET",
+          headers: {
+            'Content-type' : 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+
+        if(!response.ok) {
+          console.log("Failed to fetch menu");
+        }
+        const data = await response.json();
+        setStaff(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchstaff();
+  },[]);
+
+  const Forget = async (id) => {
+    try{
+      const token = localStorage.getItem('token');{
+      const response = await fetch(`http://localhost:8000/api/deleteStaff/${id}`, {
+        method : "DELETE",
+        headers : {
+          "Content-type" : "application/json",
+          'Accept' : 'application/json',
+          'Authorization' : `Bearer ${token}`
+        }
+      });
+
+      if(!response.ok) {
+        console.log("Failed to delete");
+      }
+
+    const newstaff = staff.filter((staff2) => {
+      return (
+        staff2.id !== id
+      )
+    })
+
+
+    setStaff(newstaff);
+      
+    } 
+  } catch(error) {
+    console.log(error);
+  }
+}
+
+
   return (
-    <div>
+  <div>
        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
         <Typography variant="h4">Staff Members</Typography>
         <Button variant="contained" color="primary" href="staffformadmin">Add Staff</Button>
@@ -14,8 +75,7 @@ const StaffAdmin = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>First</TableCell>
-              <TableCell>Last</TableCell>
+              <TableCell>FullName</TableCell>
               <TableCell>Salary</TableCell>
               <TableCell>Role</TableCell>
               <TableCell>Start Time</TableCell>
@@ -24,21 +84,24 @@ const StaffAdmin = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>1</TableCell>
-              <TableCell>Filan</TableCell>
-              <TableCell>Fisteku</TableCell>
-              <TableCell>500$</TableCell>
-              <TableCell>Waiter</TableCell>
-              <TableCell>8 AM</TableCell>
-              <TableCell>4 PM</TableCell>
-              <TableCell>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button variant="outlined" color="primary">Edit</Button>
-                <Button variant="outlined" color="error">Delete</Button>
-                </Box>
-              </TableCell>
-            </TableRow>
+            {staff.map(staff1 => (
+               <TableRow>
+               <TableCell>{staff1.id}</TableCell>
+               <TableCell>{staff1.FullName}</TableCell>
+               <TableCell>{staff1.salary}€</TableCell>
+               <TableCell>{staff1.role}</TableCell>
+               <TableCell>{staff1.shift.start_time}</TableCell>
+               <TableCell>{staff1.shift.end_time}</TableCell>
+               <TableCell>
+               <Box sx={{ display: 'flex', gap: 1 }}>
+               <Button variant="outlined" color="primary" component={Link} to={`/editStaff/${staff1.id}`} >Edit</Button>
+                 <Button variant="outlined" color="error" onClick={() => Forget(staff1.id)}>Delete</Button>
+                 </Box>
+               </TableCell>
+             </TableRow>
+
+            ))}
+           
           </TableBody>
         </Table>
       </TableContainer>

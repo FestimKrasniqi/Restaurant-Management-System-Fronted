@@ -5,27 +5,42 @@ import * as Yup from "yup";
 
 const StaffForm = () => {
   const validationSchema = Yup.object().shape({
-    first: Yup.string().required("First Name is required"),
-    last: Yup.string().required("Last Name is required"),
-    Salary: Yup.number().required("Salary is required").positive("Salary must be positive"),
-    Role: Yup.string().required("Role is required"),
-    startTime: Yup.string().required("Start Time is required"),
-    endTime: Yup.string().required("End Time is required"),
+    FullName: Yup.string().required("Full Name is required"),
+    salary: Yup.number().required("Salary is required").positive("Salary must be positive"),
+    role: Yup.string().required("Role is required"),
+    start_time: Yup.string().required("Start Time is required"),
+    end_time: Yup.string().required("End Time is required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      first: "",
-      last: "",
-      Salary: "",
-      Role: "",
-      startTime:"",
-      endTime:"",
+      FullName: "",
+      salary: "",
+      role: "",
+      start_time:"",
+      end_time:"",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-      formik.resetForm();
+    onSubmit: async  (values,resetForm) => {
+      try {
+        const token = localStorage.getItem('token');
+        let result = await fetch("http://localhost:8000/api/add-staff", {
+          method: 'POST',
+          body: JSON.stringify(formik.values),
+          headers: {
+            "Content-Type": 'application/json',
+            "Accept": 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+
+        result = await result.json();
+      console.log(result);
+      resetForm();
+    } catch(error) {
+      console.log("Error:", error)
+    }
+      
     },
   });
 
@@ -35,74 +50,64 @@ const StaffForm = () => {
         <Grid item xs={12}>
           <TextField
             fullWidth
-            label="First Name"
-            name="first"
-            value={formik.values.first}
+            label="Full Name"
+            name="FullName"
+            value={formik.values.FullName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.first && Boolean(formik.errors.first)}
-            helperText={formik.touched.first && formik.errors.first}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Last Name"
-            name="last"
-            value={formik.values.last}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.last && Boolean(formik.errors.last)}
-            helperText={formik.touched.last && formik.errors.last}
+            error={formik.touched.FullName && Boolean(formik.errors.FullName)}
+            helperText={formik.touched.FullName && formik.errors.FullName}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             fullWidth
             label="Salary"
-            name="Salary"
+            name="salary"
             type="number"
-            value={formik.values.Salary}
+            value={formik.values.salary}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.Salary && Boolean(formik.errors.Salary)}
-            helperText={formik.touched.Salary && formik.errors.Salary}
+            error={formik.touched.salary && Boolean(formik.errors.salary)}
+            helperText={formik.touched.salary && formik.errors.salary}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             fullWidth
             label="Role"
-            name="Role"
-            value={formik.values.Role}
+            name="role"
+            value={formik.values.role}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.Role && Boolean(formik.errors.Role)}
-            helperText={formik.touched.Role && formik.errors.Role}
+            error={formik.touched.role && Boolean(formik.errors.role)}
+            helperText={formik.touched.role && formik.errors.role}
           />
         </Grid>
         <Grid item xs = {12}>
           <TextField
           fullWidth
           label="startTime"
-          name="startTime"
-          value={formik.values.startTime}
+          name="start_time"
+          type="time"
+          value={formik.values.start_time}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.startTime && Boolean(formik.errors.startTime)}
-          helperText={formik.touched.startTime && formik.errors.startTime}
+          error={formik.touched.start_time && Boolean(formik.errors.end_time)}
+          helperText={formik.touched.start_time && formik.errors.start_time}
           />
         </Grid>
         <Grid item xs = {12}>
           <TextField
           fullWidth
           label="endTime"
-          name="endTime"
-          value={formik.values.endTime}
+          name="end_time"
+          type="time"
+          value={formik.values.end_time}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.endTime && Boolean(formik.errors.endTime)}
-          helperText={formik.touched.endTime && formik.errors.endTime}
+          error={formik.touched.end_time && Boolean(formik.errors.end_time)}
+          helperText={formik.touched.end_time && formik.errors.end_time}
           />
         </Grid>
         

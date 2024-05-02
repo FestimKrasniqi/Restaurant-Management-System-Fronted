@@ -22,6 +22,7 @@ import TableForm from './client/Admin/TableFormAdmin';
 import Dashboard from './client/Admin/Dashboard';
 import UserAdmin from './client/Admin/UserTrackAdmin';
 import EditMenuForm from './client/Admin/EditMenuForm';
+import EditStaffForm from './client/Admin/EditStaffFrom';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path = "/useradmin" element={<UserAdmin/>}/>
           <Route path = "/dashboard" element={<Dashboard/>}/>
           <Route path =  "/editMenu/:id" element={<EditMenuForm/>}/>
+          <Route path =  "/editStaff/:id" element={<EditStaffForm/>}/>
         </Routes> 
       </Router>
     );
