@@ -23,6 +23,8 @@ import Dashboard from './client/Admin/Dashboard';
 import UserAdmin from './client/Admin/UserTrackAdmin';
 import EditMenuForm from './client/Admin/EditMenuForm';
 import EditStaffForm from './client/Admin/EditStaffFrom';
+import EditTableForm from './client/Admin/EditTableForm';
+import FeedbackPage from './client/RestaurantHomePage/Feedback';
 
 
 function App() {
@@ -53,7 +55,9 @@ function App() {
           <Route path = "/dashboard" element={<Dashboard/>}/>
           <Route path =  "/editMenu/:id" element={<EditMenuForm/>}/>
           <Route path =  "/editStaff/:id" element={<EditStaffForm/>}/>
-        </Routes> 
+          <Route path = "/editTable/:id" element={<EditTableForm/>}/>
+          <Route path = "feedback" element={<FeedbackPage/>}/>
+        </Routes>
       </Router>
     );
   }

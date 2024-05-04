@@ -34,8 +34,8 @@ const Footer = () => {
             <Link href="menu" variant="body2" sx={{ mr: 2, mb: 1, display: "block", color: "inherit" }}>
               Menu
             </Link>
-            <Link href="review" variant="body2" sx={{ mr: 2, mb: 1, display: "block", color: "inherit" }}>
-              Reviews
+            <Link href="feedback" variant="body2" sx={{ mr: 2, mb: 1, display: "block", color: "inherit" }}>
+              Review
             </Link>
           </nav>
         </Grid>

@@ -21,7 +21,7 @@ const StaffAdmin = () => {
         });
 
         if(!response.ok) {
-          console.log("Failed to fetch menu");
+          console.log("Failed to fetch staff");
         }
         const data = await response.json();
         setStaff(data);

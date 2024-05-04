@@ -5,21 +5,39 @@ import * as Yup from "yup";
 
 const TableForm = () => {
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Table is required"),
+    table_name: Yup.string().required("Table is required"),
     capacity: Yup.string().required("Capacity is required"),
   
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      table_name: "",
       capacity: "",
 
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+     
+      try {
+        const token = localStorage.getItem('token');
+        let result = await fetch("http://localhost:8000/api/insertTable", {
+          method: 'POST',
+          body: JSON.stringify(formik.values),
+          headers: {
+            "Content-Type": 'application/json',
+            "Accept": 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+
+        result = await result.json();
+      console.log(result);
       formik.resetForm();
+    } catch(error) {
+      console.log("Error:", error)
+    }
+      
     },
   });
 
@@ -30,12 +48,12 @@ const TableForm = () => {
           <TextField
             fullWidth
             label="Table Name"
-            name="name"
-            value={formik.values.name}
+            name="table_name"
+            value={formik.values.table_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
+            error={formik.touched.table_name && Boolean(formik.errors.table_name)}
+            helperText={formik.touched.table_name && formik.errors.table_name}
           />
         </Grid>
         <Grid item xs={12}>
@@ -43,6 +61,7 @@ const TableForm = () => {
             fullWidth
             label="Capacity"
             name="capacity"
+            type="number"
             value={formik.values.capacity}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

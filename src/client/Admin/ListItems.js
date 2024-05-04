@@ -8,6 +8,9 @@ import PeopleIcon from '@mui/icons-material/People';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import EventSeatIcon from '@mui/icons-material/EventSeat';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import { Link } from 'react-router-dom';
 
@@ -55,8 +58,26 @@ export const mainListItems = (
         <TableRestaurantIcon/>
       </ListItemIcon>
       <ListItemText primary="Table"/>
-
+      </ListItemButton>
+      <ListItemButton component={Link} to="/stockadmin">
+      <ListItemIcon>
+        <ListAltIcon/>
+      </ListItemIcon>
+      <ListItemText primary="Stock"/>
     </ListItemButton>
+    <ListItemButton component={Link} to="/reviewsadmin">
+      <ListItemIcon>
+        <RateReviewIcon/>
+      </ListItemIcon>
+      <ListItemText primary="Reviews"/>
+    </ListItemButton>
+    <ListItemButton component={Link} to="/suppliersadmin">
+      <ListItemIcon>
+        <LocalShippingIcon/>
+      </ListItemIcon>
+      <ListItemText primary="Suppliers"/>
+    </ListItemButton>
+   
 
   </React.Fragment>
 );
