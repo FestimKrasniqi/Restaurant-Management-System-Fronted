@@ -65,7 +65,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Stock"/>
     </ListItemButton>
-    <ListItemButton component={Link} to="/reviewsadmin">
+    <ListItemButton component={Link} to="/reviewadmin">
       <ListItemIcon>
         <RateReviewIcon/>
       </ListItemIcon>
