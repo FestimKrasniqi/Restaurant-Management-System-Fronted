@@ -25,6 +25,7 @@ import EditMenuForm from './client/Admin/EditMenuForm';
 import EditStaffForm from './client/Admin/EditStaffFrom';
 import EditTableForm from './client/Admin/EditTableForm';
 import FeedbackPage from './client/RestaurantHomePage/Feedback';
+import ReviewAdmin from './client/Admin/ReviewTrackAdmin';
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
           <Route path =  "/editStaff/:id" element={<EditStaffForm/>}/>
           <Route path = "/editTable/:id" element={<EditTableForm/>}/>
           <Route path = "feedback" element={<FeedbackPage/>}/>
+          <Route path = "/reviewadmin" element={<ReviewAdmin/>}/>
         </Routes>
       </Router>
     );

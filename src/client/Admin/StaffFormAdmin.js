@@ -21,7 +21,7 @@ const StaffForm = () => {
       end_time:"",
     },
     validationSchema: validationSchema,
-    onSubmit: async  (values,resetForm) => {
+    onSubmit: async  (values) => {
       try {
         const token = localStorage.getItem('token');
         let result = await fetch("http://localhost:8000/api/add-staff", {
@@ -36,7 +36,7 @@ const StaffForm = () => {
 
         result = await result.json();
       console.log(result);
-      resetForm();
+      formik.resetForm();
     } catch(error) {
       console.log("Error:", error)
     }
