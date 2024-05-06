@@ -5,8 +5,6 @@ import * as Yup from "yup";
 
 const ReservationForm = () => {
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
     phone: Yup.string().required("Phone is required"),
     dateTime: Yup.date().required("Date and time are required"),
     guests: Yup.number().required("Number of guests is required").min(1, "Must be at least 1"),
@@ -14,8 +12,6 @@ const ReservationForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
       phone: "",
       dateTime: "",
       guests: "",
@@ -30,31 +26,6 @@ const ReservationForm = () => {
   return (
     <form onSubmit={formik.handleSubmit} autoComplete="off">
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            fullWidth
-            label="Name"
-            name="name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            fullWidth
-            label="Email"
-            type="email"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-        </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
