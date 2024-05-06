@@ -5,8 +5,6 @@ import * as Yup from "yup";
 
 const OrderForm = () => {
   const initialValues = {
-    name: "",
-    email: "",
     address: "",
     phoneNumber: "",
     foodItem: "",
@@ -14,8 +12,6 @@ const OrderForm = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
     address: Yup.string().required("Address is required"),
     phoneNumber: Yup.string().required("Phone Number is required"),
     foodItem: Yup.string().required("Food Item is required"),
@@ -40,30 +36,6 @@ const OrderForm = () => {
   return (
     <form onSubmit={formik.handleSubmit} autoComplete="off">
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Name"
-            name="name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-        </Grid>
         <Grid item xs={12}>
           <TextField
             fullWidth
