@@ -7,23 +7,41 @@ const OrderForm = () => {
   const initialValues = {
     address: "",
     phoneNumber: "",
-    foodItem: "",
+    name: "",
     quantity: "",
   };
 
   const validationSchema = Yup.object().shape({
     address: Yup.string().required("Address is required"),
     phoneNumber: Yup.string().required("Phone Number is required"),
-    foodItem: Yup.string().required("Food Item is required"),
+    name: Yup.string().required("Food Item is required"),
     quantity: Yup.number()
       .typeError("Quantity must be a number")
       .required("Quantity is required")
       .positive("Quantity must be greater than zero"),
   });
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
+   
+    try {
+      const token = localStorage.getItem('token');
+      let result = await fetch("http://localhost:8000/api/create-order", {
+        method: 'POST',
+        body: JSON.stringify(formik.values),
+        headers: {
+          "Content-Type": 'application/json',
+          "Accept": 'application/json',
+          'Authorization' : `Bearer ${token}`
+        }
+      });
+
+      result = await result.json();
+    console.log(result);
     formik.resetForm();
+  } catch(error) {
+    console.log("Error:", error)
+  }
+    
     
   };
 
@@ -65,12 +83,12 @@ const OrderForm = () => {
           <TextField
             fullWidth
             label="Food Item"
-            name="foodItem"
-            value={formik.values.foodItem}
+            name="name"
+            value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.foodItem && Boolean(formik.errors.foodItem)}
-            helperText={formik.touched.foodItem && formik.errors.foodItem}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
           />
         </Grid>
         <Grid item xs={12}>
