@@ -5,38 +5,53 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useState,useEffect } from 'react';
 
 
-function createData(id, name, email, address, phoneNumber,foodItem,quantity,bill ) {
-  return { id, name, email, address, phoneNumber,foodItem,quantity,bill };
-}
 
-const rows = [
-  createData(
-    1,
-    'Festim',
-    'FK50@gmail.com',
-    'Street Haxhi Zeka',
-    '+38349563245',
-    'pizza',
-    3,
-    '10 euro'
-  )
- 
-];
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 export default function OrderAdmin() {
+
+
+    const [orders,setOrders] = useState([]);
+    
+    useEffect(()=>{
+    const fetchorder =  async () => {
+        try {
+          const token = localStorage.getItem('token');
+            const response = await fetch("http://localhost:8000/api/getAllOrders", {
+              method:"GET",
+              headers: {
+                'Content-type' : 'application/json',
+                'Accept': 'application/json',
+                'Authorization' : `Bearer ${token}`
+    
+              }
+            });
+            if(!response.ok) {
+                console.error("Failed to fetch order");
+            }
+            const data = await response.json();
+            setOrders(data);
+        } catch(error) {
+            console.log(error);
+        }
+    
+    };
+    fetchorder();
+    },[]);
+    
+
+
+
   return (
     <React.Fragment>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
+            <TableCell>First</TableCell>
+            <TableCell>Last</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Address</TableCell>
             <TableCell>Phone Number</TableCell>
@@ -46,16 +61,17 @@ export default function OrderAdmin() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.email}</TableCell>
-              <TableCell>{row.address}</TableCell>
-              <TableCell>{row.phoneNumber}</TableCell>
-              <TableCell>{row.foodItem}</TableCell>
-              <TableCell>{row.quantity}</TableCell>
-              <TableCell>{row.bill} </TableCell>
+          {orders.map((order) => (
+            <TableRow key={order.id}>
+              <TableCell>{order.id}</TableCell>
+              <TableCell>{order.user.first}</TableCell>
+              <TableCell>{order.user.last}</TableCell>
+              <TableCell>{order.user.email}</TableCell>
+              <TableCell>{order.user.address}</TableCell>
+              <TableCell>{order.user.phoneNumber}</TableCell>
+              <TableCell>{order.menu.name}</TableCell>
+              <TableCell>{order.quantity}</TableCell>
+              <TableCell>{order.bill.total_amount}€ </TableCell>
             </TableRow>
           ))}
         </TableBody>
