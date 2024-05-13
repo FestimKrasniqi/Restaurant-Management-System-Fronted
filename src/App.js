@@ -30,6 +30,7 @@ import SupplierAdmin from './client/Admin/SupplierAdmin';
 import SupplierForm from './client/Admin/SupplierFormAdmin';
 import EditSupplierForm from './client/Admin/EditSupplierForm';
 import EditOrderForm from './client/RestaurantHomePage/EditOrder';
+import EditBookingForm from './client/RestaurantHomePage/EditBooking';
 import { AuthContext } from './client/Authenticate';
 
 function App() {
@@ -45,7 +46,13 @@ function App() {
         <Route path="/Reset" element={<ResetPassword />} />
         {loggedIn ? (
           <>
-          <Route path="/Order" element={<OrderForm />} />
+         
+          </>
+        ) : (
+          <Route path="*" element={<Navigate to="/Login" />} />
+        )}
+
+<Route path="/Order" element={<OrderForm />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Booking" element={<ReservationForm />} />
         <Route path="/myorder" element={<MyOrders />} />
@@ -71,11 +78,8 @@ function App() {
         <Route path="/supplierformadmin" element={<SupplierForm />} />
         <Route path="/editSupplier/:id" element={<EditSupplierForm />} />
         <Route path="/editOrder/:id" element={<EditOrderForm />} />
+        <Route path = "/editBooking/:id" element={<EditBookingForm/>}/>
             
-          </>
-        ) : (
-          <Route path="*" element={<Navigate to="/Login" />} />
-        )}
         
       </Routes>
     </Router>
