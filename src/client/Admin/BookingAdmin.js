@@ -5,35 +5,49 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import {useState,useEffect} from 'react';
 
 
-function createData(id,  name, email,phoneNumber,numberOfGuests,datetime ) {
-  return { id,  name, email,phoneNumber,numberOfGuests,datetime };
-}
-
-const rows = [
-  createData(
-    1,
-    'Festim',
-    'FK50@gmail.com',
-    '+38349675421',
-    5,
-    '5-5-2024 15:30'
-  )
-];
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 export default function BookingAdmin() {
+
+  const [bookings,setBookings] = useState([]);
+    
+    useEffect(()=>{
+    const fetchbooking =  async () => {
+        try {
+          const token = localStorage.getItem('token');
+            const response = await fetch("http://localhost:8000/api/getAllBookings", {
+              method:"GET",
+              headers: {
+                'Content-type' : 'application/json',
+                'Accept': 'application/json',
+                'Authorization' : `Bearer ${token}`
+    
+              }
+            });
+            if(!response.ok) {
+                console.error("Failed to fetch booking");
+            }
+            const data = await response.json();
+            setBookings(data);
+        } catch(error) {
+            console.log(error);
+        }
+    
+    };
+    fetchbooking();
+    },[]);
+
+
   return (
     <React.Fragment>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
+            <TableCell>First</TableCell>
+            <TableCell>Last</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Phone Number</TableCell>
             <TableCell>Number of Guests</TableCell>
@@ -41,14 +55,15 @@ export default function BookingAdmin() {
             </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.email}</TableCell>
-              <TableCell>{row.phoneNumber}</TableCell>
-              <TableCell>{row.numberOfGuests}</TableCell>
-              <TableCell >{row.datetime}</TableCell>
+          {bookings.map((booking) => (
+            <TableRow key={booking.id}>
+                <TableCell>{booking.id}</TableCell>
+              <TableCell>{booking.user.first}</TableCell>
+              <TableCell>{booking.user.last}</TableCell>
+              <TableCell>{booking.user.email}</TableCell>
+              <TableCell>{booking.user.phoneNumber}</TableCell>
+              <TableCell>{booking.number_of_guests}</TableCell>
+              <TableCell>{booking.datetime}</TableCell>
             </TableRow>
           ))}
         </TableBody>

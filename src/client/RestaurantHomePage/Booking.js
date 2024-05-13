@@ -5,21 +5,40 @@ import * as Yup from "yup";
 
 const ReservationForm = () => {
   const validationSchema = Yup.object().shape({
-    phone: Yup.string().required("Phone is required"),
+    phoneNumber: Yup.string().required("Phone is required"),
     dateTime: Yup.date().required("Date and time are required"),
-    guests: Yup.number().required("Number of guests is required").min(1, "Must be at least 1"),
+    number_of_guests: Yup.number().required("Number of guests is required").min(1, "Must be at least 1"),
   });
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
+      phoneNumber: "",
       dateTime: "",
-      guests: "",
+      number_of_guests: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const token = localStorage.getItem('token');
+        let result = await fetch("http://localhost:8000/api/create-booking", {
+          method: 'POST',
+          body: JSON.stringify(formik.values),
+          headers: {
+            "Content-Type": 'application/json',
+            "Accept": 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+  
+        result = await result.json();
+      console.log(result);
       formik.resetForm();
+    } catch(error) {
+      console.log("Error:", error)
+    }
+      
+      
+    
     },
   });
 
@@ -31,19 +50,19 @@ const ReservationForm = () => {
             fullWidth
             label="Phone"
             type="tel"
-            name="phone"
-            value={formik.values.phone}
+            name="phoneNumber"
+            value={formik.values.phoneNumber}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.phone && Boolean(formik.errors.phone)}
-            helperText={formik.touched.phone && formik.errors.phone}
+            error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             label="Date and Time"
-            type="datetime-local"
+            type="datetime"
             name="dateTime"
             value={formik.values.dateTime}
             onChange={formik.handleChange}
@@ -57,12 +76,12 @@ const ReservationForm = () => {
             fullWidth
             label="Number of Guests"
             type="number"
-            name="guests"
-            value={formik.values.guests}
+            name="number_of_guests"
+            value={formik.values.number_of_guests}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.guests && Boolean(formik.errors.guests)}
-            helperText={formik.touched.guests && formik.errors.guests}
+            error={formik.touched.number_of_guests && Boolean(formik.errors.number_of_guests)}
+            helperText={formik.touched.number_of_guests && formik.errors.number_of_guests}
           />
           <br />
           <br />
