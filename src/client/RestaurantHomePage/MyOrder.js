@@ -11,7 +11,7 @@ const MyOrders = () => {
   const fetchorder =  async () => {
       try {
         const token = localStorage.getItem('token');
-          const response = await fetch("http://localhost:8000/api/index", {
+          const response = await fetch("http://localhost:8000/api/index1", {
             method:"GET",
             headers: {
               'Content-type' : 'application/json',
@@ -99,7 +99,7 @@ const MyOrders = () => {
               <TableCell>{order.user.email}</TableCell>
               <TableCell>{order.user.address}</TableCell>
               <TableCell>{order.user.phoneNumber}</TableCell>
-              <TableCell>{order.menu.name}</TableCell>
+              {<TableCell>{order.menu.name}</TableCell>}
               <TableCell>{order.quantity}</TableCell>
               {/*<TableCell>{order.bill1.total_amount}€ </TableCell>*/}
               <TableCell>

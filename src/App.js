@@ -34,7 +34,7 @@ import EditBookingForm from './client/RestaurantHomePage/EditBooking';
 import { AuthContext } from './client/Authenticate';
 
 function App() {
-  const { loggedIn } = useContext(AuthContext);
+ 
 
   return (
     <Router>
@@ -44,22 +44,13 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Forgot" element={<Forgot />} />
         <Route path="/Reset" element={<ResetPassword />} />
-        {loggedIn ? (
-          <>
-         
-          </>
-        ) : (
-          <Route path="*" element={<Navigate to="/Login" />} />
-        )}
-
-<Route path="/Order" element={<OrderForm />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/Booking" element={<ReservationForm />} />
+        
+        <Route path="/Order" element={<OrderForm />} />
+        <Route path="/Booking" element={<ReservationForm />} />
         <Route path="/myorder" element={<MyOrders />} />
         <Route path="/myreservation" element={<MyReservation />} />
         <Route path="/about" element={<About />} />
         <Route path="/menu" element={<Menu />} />
-        <Route path="/home" element={<Home />} />
         <Route path="/orderadmin" element={<OrderAdmin />} />
         <Route path="/bookingadmin" element={<BookingAdmin />} />
         <Route path="/menuadmin" element={<MenuAdmin />} />
@@ -79,7 +70,8 @@ function App() {
         <Route path="/editSupplier/:id" element={<EditSupplierForm />} />
         <Route path="/editOrder/:id" element={<EditOrderForm />} />
         <Route path = "/editBooking/:id" element={<EditBookingForm/>}/>
-            
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/home" element={<Home />} />
         
       </Routes>
     </Router>
