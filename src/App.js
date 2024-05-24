@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './client/SignUp';
 import Login from './client/Login';
 import Forgot from './client/ForgotPassword';
@@ -22,7 +22,7 @@ import TableForm from './client/Admin/TableFormAdmin';
 import Dashboard from './client/Admin/Dashboard';
 import UserAdmin from './client/Admin/UserTrackAdmin';
 import EditMenuForm from './client/Admin/EditMenuForm';
-import EditStaffForm from './client/Admin/EditStaffFrom';
+import EditStaffForm from './client/Admin/EditStaffForm';
 import EditTableForm from './client/Admin/EditTableForm';
 import FeedbackPage from './client/RestaurantHomePage/Feedback';
 import ReviewAdmin from './client/Admin/ReviewTrackAdmin';
@@ -31,50 +31,58 @@ import SupplierForm from './client/Admin/SupplierFormAdmin';
 import EditSupplierForm from './client/Admin/EditSupplierForm';
 import EditOrderForm from './client/RestaurantHomePage/EditOrder';
 import EditBookingForm from './client/RestaurantHomePage/EditBooking';
-import { AuthContext } from './client/Authenticate';
+import { AuthProvider } from './client/Authenticate';
+import PrivateRoute from './client/PrivateRoute';
 
 function App() {
- 
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Signup" element={<SignUp />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Forgot" element={<Forgot />} />
-        <Route path="/Reset" element={<ResetPassword />} />
-        
-        <Route path="/Order" element={<OrderForm />} />
-        <Route path="/Booking" element={<ReservationForm />} />
-        <Route path="/myorder" element={<MyOrders />} />
-        <Route path="/myreservation" element={<MyReservation />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/orderadmin" element={<OrderAdmin />} />
-        <Route path="/bookingadmin" element={<BookingAdmin />} />
-        <Route path="/menuadmin" element={<MenuAdmin />} />
-        <Route path="/menuformadmin" element={<MenuFormAdmin />} />
-        <Route path="/staffformadmin" element={<StaffForm />} />
-        <Route path="/staffadmin" element={<StaffAdmin />} />
-        <Route path="/tableadmin" element={<TableAdmin />} />
-        <Route path="/tableformadmin" element={<TableForm />} />
-        <Route path="/useradmin" element={<UserAdmin />} />
-        <Route path="/editMenu/:id" element={<EditMenuForm />} />
-        <Route path="/editStaff/:id" element={<EditStaffForm />} />
-        <Route path="/editTable/:id" element={<EditTableForm />} />
-        <Route path="/feedback" element={<FeedbackPage />} />
-        <Route path="/reviewadmin" element={<ReviewAdmin />} />
-        <Route path="/supplieradmin" element={<SupplierAdmin />} />
-        <Route path="/supplierformadmin" element={<SupplierForm />} />
-        <Route path="/editSupplier/:id" element={<EditSupplierForm />} />
-        <Route path="/editOrder/:id" element={<EditOrderForm />} />
-        <Route path = "/editBooking/:id" element={<EditBookingForm/>}/>
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/home" element={<Home />} />
-        
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/Signup" element={<SignUp />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Forgot" element={<Forgot />} />
+          <Route path="/Reset" element={<ResetPassword />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path="/order" element={<OrderForm />} />
+            <Route path="/Booking" element={<ReservationForm />} />
+            <Route path="/myorder" element={<MyOrders />} />
+            <Route path="/myreservation" element={<MyReservation />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
+            <Route path="/editOrder/:id" element={<EditOrderForm />} />
+            <Route path="/editBooking/:id" element={<EditBookingForm />} />
+            </Route>
+
+            
+            <Route element={<PrivateRoute />}>
+            <Route path="/orderadmin" element={<OrderAdmin />} />
+            <Route path="/bookingadmin" element={<BookingAdmin />} />
+            <Route path="/menuadmin" element={<MenuAdmin />} />
+            <Route path="/menuformadmin" element={<MenuFormAdmin />} />
+            <Route path="/staffformadmin" element={<StaffForm />} />
+            <Route path="/staffadmin" element={<StaffAdmin />} />
+            <Route path="/tableadmin" element={<TableAdmin />} />
+            <Route path="/tableformadmin" element={<TableForm />} />
+            <Route path="/useradmin" element={<UserAdmin />} />
+            <Route path="/editMenu/:id" element={<EditMenuForm />} />
+            <Route path="/editStaff/:id" element={<EditStaffForm />} />
+            <Route path="/editTable/:id" element={<EditTableForm />} />
+            <Route path="/reviewadmin" element={<ReviewAdmin />} />
+            <Route path="/supplieradmin" element={<SupplierAdmin />} />
+            <Route path="/supplierformadmin" element={<SupplierForm />} />
+            <Route path="/editSupplier/:id" element={<EditSupplierForm />} />
+            </Route>
+
+          
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
