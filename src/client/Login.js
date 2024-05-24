@@ -52,7 +52,8 @@ function Login() {
     if(result.ok) {
       const { token, role } = await result.json();
     localStorage.setItem('token',token)
-    console.log(token);
+    localStorage.setItem('role',role)
+    console.log(token,role);
 
     if (role === 'admin') {
       const adminResponse = await fetch("http://localhost:8000/api/admin", {
