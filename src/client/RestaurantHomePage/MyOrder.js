@@ -85,7 +85,7 @@ const MyOrders = () => {
               <TableCell>Phone Number</TableCell>
               <TableCell>Food Item</TableCell>
               <TableCell>Quantity</TableCell>
-              {/*<TableCell>Bill</TableCell>*/}
+              <TableCell>Bill</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -101,7 +101,7 @@ const MyOrders = () => {
               <TableCell>{order.user.phoneNumber}</TableCell>
               {<TableCell>{order.menu.name}</TableCell>}
               <TableCell>{order.quantity}</TableCell>
-              {/*<TableCell>{order.bill1.total_amount}€ </TableCell>*/}
+              <TableCell>{order.bill}€ </TableCell>
               <TableCell>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button variant="outlined" color="primary" component={Link} to={`/editOrder/${order.id}`}>Edit</Button>

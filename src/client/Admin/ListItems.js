@@ -59,12 +59,6 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Table"/>
       </ListItemButton>
-      <ListItemButton component={Link} to="/stockadmin">
-      <ListItemIcon>
-        <ListAltIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Stock"/>
-    </ListItemButton>
     <ListItemButton component={Link} to="/reviewadmin">
       <ListItemIcon>
         <RateReviewIcon/>

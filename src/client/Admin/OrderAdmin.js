@@ -71,7 +71,7 @@ export default function OrderAdmin() {
               <TableCell>{order.user.phoneNumber}</TableCell>
               <TableCell>{order.menu.name}</TableCell>
               <TableCell>{order.quantity}</TableCell>
-              <TableCell>{order.bill.total_amount}€ </TableCell>
+              <TableCell>{order.bill}€ </TableCell>
             </TableRow>
           ))}
         </TableBody>
