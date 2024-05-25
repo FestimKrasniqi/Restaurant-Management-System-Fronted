@@ -94,7 +94,7 @@ const SupplierForm = () => {
               type="submit"
               disabled={formik.isSubmitting}
             >
-              Add Table
+              Add Supplier
             </Button>
           </Grid>
         </Grid>
