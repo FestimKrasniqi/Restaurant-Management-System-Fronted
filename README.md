@@ -1,7 +1,3 @@
-Based on the structure shown in the provided screenshot, here's a README file for the front-end repository of the restaurant management system:
-
----
-
 # Restaurant Management System - Frontend
 
 This is the frontend repository for the Restaurant Management System. It provides a user interface for customers and administrators to manage restaurant operations including orders, bookings, menu management, and more.This project is based on distributed systems course.
