@@ -7,7 +7,6 @@ This is the frontend repository for the Restaurant Management System. It provide
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Available Scripts](#available-scripts)
-- [Project Structure](#project-structure)
 - [API Integration](#api-integration)
 - [Authentication](#authentication)
 - [Private Routes](#private-routes)
@@ -21,8 +20,7 @@ This is the frontend repository for the Restaurant Management System. It provide
 - Fetch API
 - Material-UI
 - Formik & Yup
-- JWT Authentication
-- React MUI
+
 
 
 ## Installation
@@ -50,25 +48,6 @@ Launches the test runner in interactive watch mode.
 
 Builds the app for production to the `build` folder.
 
-## Project Structure
-
-```
-src/
-|-- client/
-| |-- Admin/
-| |-- layouts/
-| |-- img/
-| |-- RestaurantHomePage/
-| |-- Authenticate.js
-| |-- ForgotPassword.js
-| |-- Login.js
-| |-- PrivateRoute.js
-| |-- ResetPassword.js
-| |-- SignUp.js
-| |-- style.css
-|-- App.js
-|-- index.js
-```
 
 ## API Integration
 
@@ -98,7 +77,7 @@ export const getOrders = async () => {
 
 ## Authentication
 
-Authentication is managed using JWT tokens. The `AuthContext` provides authentication state and functions for login and logout.
+Authentication is managed using Laravel Sanctum tokens. The `AuthContext` provides authentication state and functions for login and logout.
 
 ```js
 import React, { createContext, useContext, useState, useEffect } from 'react';
