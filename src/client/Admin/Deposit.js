@@ -56,7 +56,6 @@ function OrdersSummary() {
       });
       if (orderSumResponse.ok) {
         const data = await orderSumResponse.json();
-        localStorage.setItem("orderSum", JSON.stringify(data));
         setOrderSum(data);
       }
     } catch (error) {
