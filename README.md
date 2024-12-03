@@ -154,5 +154,5 @@ export default PrivateRoute;
 ## Contributors
 
 - [Festim Krasniqi](https://github.com/FestimKrasniqi)
-- [Dominik Pllashniku](https://github.com/pllasha)
+
 
