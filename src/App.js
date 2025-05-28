@@ -31,12 +31,11 @@ import SupplierForm from './client/Admin/SupplierFormAdmin';
 import EditSupplierForm from './client/Admin/EditSupplierForm';
 import EditOrderForm from './client/RestaurantHomePage/EditOrder';
 import EditBookingForm from './client/RestaurantHomePage/EditBooking';
-import { AuthProvider } from './client/Authenticate';
-import PrivateRoute from './client/PrivateRoute';
+
 
 function App() {
   return (
-    <AuthProvider>
+    
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -45,44 +44,38 @@ function App() {
           <Route path="/Forgot" element={<Forgot />} />
           <Route path="/Reset" element={<ResetPassword />} />
 
-          <Route element={<PrivateRoute />}>
-            <Route path="/order" element={<OrderForm />} />
-            <Route path="/Booking" element={<ReservationForm />} />
-            <Route path="/myorder" element={<MyOrders />} />
-            <Route path="/myreservation" element={<MyReservation />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/feedback" element={<FeedbackPage />} />
-            <Route path="/editOrder/:id" element={<EditOrderForm />} />
-            <Route path="/editBooking/:id" element={<EditBookingForm />} />
-            </Route>
-
-            
-            <Route element={<PrivateRoute />}>
-            <Route path="/orderadmin" element={<OrderAdmin />} />
-            <Route path="/bookingadmin" element={<BookingAdmin />} />
-            <Route path="/menuadmin" element={<MenuAdmin />} />
-            <Route path="/menuformadmin" element={<MenuFormAdmin />} />
-            <Route path="/staffformadmin" element={<StaffForm />} />
-            <Route path="/staffadmin" element={<StaffAdmin />} />
-            <Route path="/tableadmin" element={<TableAdmin />} />
-            <Route path="/tableformadmin" element={<TableForm />} />
-            <Route path="/useradmin" element={<UserAdmin />} />
-            <Route path="/editMenu/:id" element={<EditMenuForm />} />
-            <Route path="/editStaff/:id" element={<EditStaffForm />} />
-            <Route path="/editTable/:id" element={<EditTableForm />} />
-            <Route path="/reviewadmin" element={<ReviewAdmin />} />
-            <Route path="/supplieradmin" element={<SupplierAdmin />} />
-            <Route path="/supplierformadmin" element={<SupplierForm />} />
-            <Route path="/editSupplier/:id" element={<EditSupplierForm />} />
-            </Route>
-
-          
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/home" element={<Home />} />
+
+          <Route path="/order" element={<OrderForm />} />
+          <Route path="/Booking" element={<ReservationForm />} />
+          <Route path="/myorder" element={<MyOrders />} />
+          <Route path="/myreservation" element={<MyReservation />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/editOrder/:id" element={<EditOrderForm />} />
+          <Route path="/editBooking/:id" element={<EditBookingForm />} />
+
+          <Route path="/orderadmin" element={<OrderAdmin />} />
+          <Route path="/bookingadmin" element={<BookingAdmin />} />
+          <Route path="/menuadmin" element={<MenuAdmin />} />
+          <Route path="/menuformadmin" element={<MenuFormAdmin />} />
+          <Route path="/staffformadmin" element={<StaffForm />} />
+          <Route path="/staffadmin" element={<StaffAdmin />} />
+          <Route path="/tableadmin" element={<TableAdmin />} />
+          <Route path="/tableformadmin" element={<TableForm />} />
+          <Route path="/useradmin" element={<UserAdmin />} />
+          <Route path="/editMenu/:id" element={<EditMenuForm />} />
+          <Route path="/editStaff/:id" element={<EditStaffForm />} />
+          <Route path="/editTable/:id" element={<EditTableForm />} />
+          <Route path="/reviewadmin" element={<ReviewAdmin />} />
+          <Route path="/supplieradmin" element={<SupplierAdmin />} />
+          <Route path="/supplierformadmin" element={<SupplierForm />} />
+          <Route path="/editSupplier/:id" element={<EditSupplierForm />} />
         </Routes>
       </Router>
-    </AuthProvider>
+
   );
 }
 
