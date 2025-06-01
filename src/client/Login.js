@@ -21,8 +21,7 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
 
 
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+  
   const navigate = useNavigate();
 
 
@@ -53,51 +52,24 @@ function Login() {
       const { token, role } = await result.json();
     localStorage.setItem('token',token)
     localStorage.setItem('role',role)
-    console.log(token,role);
 
     if (role === 'admin') {
-      const adminResponse = await fetch("http://localhost:8000/api/admin", {
-        method: 'GET',
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      if (adminResponse.ok) {
-       
-      } else {
-        console.log("Failed to fetch admin data:", adminResponse.statusText);
-      }
-
+      
       navigate('/dashboard'); 
     } else {
-      const userResponse = await fetch("http://localhost:8000/api/user1", {
-        method: 'GET',
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      if (userResponse.ok) {
-       
-      } else {
-        console.log("Failed to fetch user data:", userResponse.statusText);
-      }
-
       navigate('/home'); 
     }
 
 
     resetForm();
     } else {
-     console.log("Login failed",values.statusText)
-     setShowAlert(true);
-     setAlertMessage("Login failed. Please check your credentials.");
+     alert("Invalid Credentials")
+     resetForm();
+     
      }
   } catch (error) {
-    console.error('Error:', error);
-    setShowAlert(true);
-    setAlertMessage("An error occurred while logging in.");
+    alert('Error:', error);
+    
   }
 }
 });
@@ -133,11 +105,7 @@ function Login() {
               alignItems: 'center',
             }}
           >
-          {showAlert && (
-              <Box mb={2}>
-                <Alert severity="error" onClose={() => setShowAlert(false)}>{alertMessage}</Alert>
-              </Box>
-            )}
+          
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>

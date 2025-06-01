@@ -15,7 +15,7 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Alert from '@mui/material/Alert';
+
 
 function Copyright(props) {
   return (
@@ -40,8 +40,7 @@ const restaurantTheme = createTheme({
 
 export default function SignUp() {
  
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+
 
 
   const formik = useFormik({
@@ -63,7 +62,7 @@ export default function SignUp() {
 
     onSubmit: async (values,{resetForm}) => {
       try {
-        let result = await fetch("http://localhost:8000/api/SignUp", {
+        const response = await fetch("http://localhost:8000/api/SignUp", {
           method: 'POST',
           body: JSON.stringify(formik.values),
           headers: {
@@ -72,22 +71,19 @@ export default function SignUp() {
           }
         });
 
-        result = await result.json();
-        localStorage.setItem('token',result.token) 
-        console.log(result);
-        resetForm();
+       
 
-        if(result.status) {
-          setShowAlert(true);
-          setAlertMessage("User registered with success");
+        if(response.ok) {
+          const result = await response.json();
+          alert('User registered with success')
+          resetForm();
         } else {
-          setShowAlert(true);
-          setAlertMessage("Registration failed");
+          alert('User Registration failed')
+          resetForm();
         }
       } catch (error) {
-        console.error('Error:', error);
-        setShowAlert(true);
-        setAlertMessage("An error occurred while registering in.");
+        alert('Error:', error);
+        
       }
     }
   });
@@ -105,12 +101,7 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-           {showAlert && (
-              <Box mb={2}>
-                <Alert severity={alertMessage.includes("failed") ? "error" : "success"} onClose={() => setShowAlert(false)}></Alert>
-                {alertMessage}
-              </Box>
-            )}
+          
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <RestaurantIcon />
           </Avatar>

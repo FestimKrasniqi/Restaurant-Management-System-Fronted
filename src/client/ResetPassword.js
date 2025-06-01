@@ -14,12 +14,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import Alert from '@mui/material/Alert';
+
 
 function ResetPassword() {
 
-const[showAlert,setShowAlert] = useState(false);
-const[message,setAlertMessage] = useState("");
+
 
   const formik = useFormik({
 initialValues : {
@@ -39,7 +38,7 @@ validationSchema:Yup.object ({
 
 onSubmit: async(values,{resetForm}) => {
   try{
-   let result = await fetch("http://localhost:8000/api/Reset-Password",{
+   const response = await fetch("http://localhost:8000/api/Reset-Password",{
      method:'POST',
      body:JSON.stringify(formik.values),
      headers:{
@@ -47,17 +46,16 @@ onSubmit: async(values,{resetForm}) => {
        "Accept" : 'application/json',
      }
    });
-   result = await result.json()
-   localStorage.setItem('token',result.token)
-   console.log(result)
-   resetForm()
+   
+  
 
-   if(result.status) {
-    setShowAlert(true);
-    setAlertMessage("Password updated with success");
+   if(response.ok) {
+    const result = await response.json();
+    alert('Password reset with success')
+    resetForm();
    } else {
-    setShowAlert(true);
-    setAlertMessage("Error could not update");
+    alert('Failed to reset password')
+    resetForm();
    }
  }
  catch (error) {
@@ -84,12 +82,7 @@ onSubmit: async(values,{resetForm}) => {
               alignItems: 'center',
             }}
           >
-          {showAlert && (
-              <Box mb={2} sx={{ textAlign: 'center' }}>
-                <Alert severity={message.includes("failed") ? "error" : "success"} onClose={() => setShowAlert(false)}></Alert>
-                {message}
-              </Box>
-            )}
+          
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>

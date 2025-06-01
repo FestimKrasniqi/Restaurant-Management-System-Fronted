@@ -36,7 +36,7 @@ export default function ForgotPassword() {
       }),
       onSubmit: async(values,{resetForm}) => {
        try{
-        let result = await fetch("http://localhost:8000/api/Forgot-Password",{
+        const response = await fetch("http://localhost:8000/api/Forgot-Password",{
           method:'POST',
           body:JSON.stringify(formik.values),
           headers:{
@@ -44,15 +44,22 @@ export default function ForgotPassword() {
             "Accept" : 'application/json',
           }
         });
-        result = await result.json()
-        localStorage.setItem('token',result.token)
-        console.log(result)
-        resetForm()
+        
+       
+       
 
+        if(response.ok) {
+          const result = await response.json();
+          alert('an email has been sent to reset password')
+          resetForm();
+        } else {
+          alert('an error occurred while trying to send an email')
+          resetForm();
+        }
         
       }
       catch (error) {
-          console.error('Error:', error);
+          alert('Error:', error);
         }
       
       }

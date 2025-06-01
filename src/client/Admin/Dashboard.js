@@ -95,6 +95,7 @@ export default function Dashboard() {
 
     try {
       const token = localStorage.getItem('token');
+      
 
       const response = await fetch("http://localhost:8000/api/logout", {
         method:'POST',
@@ -108,6 +109,7 @@ export default function Dashboard() {
       if(response.ok) {
         console.log("Logged out successfully");
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         navigate('/login'); 
       } else {
         console.error("Failed to log out");
