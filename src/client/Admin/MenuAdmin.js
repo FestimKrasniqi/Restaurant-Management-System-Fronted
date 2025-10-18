@@ -47,7 +47,7 @@ const MenuAdmin = () => {
 
       
       if(!response.ok) {
-        console.log("Failed to delete");
+        alert("Failed to delete");
       } 
 
       const newuserData = menus.filter((item)=> {

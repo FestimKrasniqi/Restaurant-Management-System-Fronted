@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import { TextField, Button, Grid } from "@mui/material";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 
 const MenuFormAdmin = () => {
@@ -35,16 +36,22 @@ const MenuFormAdmin = () => {
 
 
 
-      let result = await fetch("http://localhost:8000/api/create-menu", {
+      const response = await fetch("http://localhost:8000/api/create-menu", {
         method : "POST",
         body: formData,
         headers : {
           'Authorization' : `Bearer ${token}`
          }
       });
-      result = await result.json();
-      console.log(result);
-      resetForm();
+      if(response.ok) {
+        const data = await response.json()
+        console.log(data)
+        alert('Menu created with success')
+        useNavigate('/menuadmin')
+      }
+      else {
+        alert('Failed to create menu')
+      }
     } catch(error) {
       console.log("Error:", error)
     }
